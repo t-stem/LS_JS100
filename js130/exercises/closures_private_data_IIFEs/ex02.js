@@ -7,12 +7,6 @@ Read this assignment and the MDN documentation to learn more about partial funct
 Alter the myBind function written in the previous exercise to support partial function application of additional arguments to the original function.
 */
 
-function myBind(func, contextObj, ...args1) {
-  return function(...args2) { // rest syntax gathers arguments into an array variable called args
-    let args = args1.concat(args2);
-    return func.apply(contextObj, args); // apply takes an array of args
-  }
-}
 
 function prod(b) {
   return this.a * b;
