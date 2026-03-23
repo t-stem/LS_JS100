@@ -8,18 +8,19 @@ Alter the myBind function written in the previous exercise to support partial fu
 */
 
 
-function prod(b) {
-  return this.a * b;
+function prod(b, c) {
+  return this.a * b + c;
 }
 
 let nums = {a: 2, b: 3};
 
-function myBind(func, context) {
-  return function(...args) {
+function myBind(func, context, ...partialArgs) {
+  return function(...extraArgs) {
+    let args = partialArgs.concat(extraArgs);
     return func.apply(context, args);
   }
 } 
 
-let multiplyBy = myBind(prod, nums);
+let multiplyBy = myBind(prod, nums, 4);
 
-console.log(multiplyBy(4)); // 8
+console.log(multiplyBy(5)); // 13
