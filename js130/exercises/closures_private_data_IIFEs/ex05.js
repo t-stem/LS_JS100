@@ -73,10 +73,7 @@ function createItem(name, category, quantity) {
   }
 }
 
-let item = createItem('sweater', 'clothing', 1)
-console.log(item)
-
-let itemManager = {
+let ItemManager = {
   items: [],
 
   create(name, category, quantity) {
@@ -125,7 +122,7 @@ let itemManager = {
   }
 }
 
-let reportsManager = {
+let ReportsManager = {
   init(ItemManager) {
     this.items = ItemManager;
   },
