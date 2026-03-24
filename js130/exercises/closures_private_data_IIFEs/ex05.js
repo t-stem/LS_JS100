@@ -35,7 +35,8 @@ The following are the methods that the items manager can perform:
 The following are the methods on the reports managers:
 - init: This method accepts the ItemManager object as an argument and assigns it to the items property.
 - createReporter: This method accepts an SKU code as an argument and returns an object.
-  * The returned object has one method, itemInfo. It logs to the console all the properties of an object as "key:value" pairs (one pair per line). There are no other properties or methods on the returned object (except for properties/methods inherited from Object.prototype).
+  * The returned object has one method, itemInfo. It logs to the console all the properties of an object as "key:value" pairs (one pair per line). 
+  * There are no other properties or methods on the returned object (except for properties/methods inherited from Object.prototype).
 - reportInStock: Logs to the console the item names of all the items that are in stock as a comma separated values.
 
 Notes:
@@ -91,9 +92,9 @@ let itemManager = {
   },
 
   update(skuCode, obj) {
-    let item = find(skuCode);
+    let item = this.find(skuCode);
     if (obj.name) {
-      item.name = obj.name;
+      item.itemName = obj.itemName;
     }
 
     if (obj.category) {
@@ -105,12 +106,12 @@ let itemManager = {
     }
 
     if (obj.quantity) {
-      obj.quantity = item.quantity;
+      item.quantity = obj.quantity;
     }
   },
 
   delete(skuCode) {
-    let item = find(skuCode);
+    let item = this.find(skuCode);
     let index = this.items.indexOf(item);
     this.items.splice(index, 1);
   },
@@ -125,15 +126,24 @@ let itemManager = {
 }
 
 let reportsManager = {
-  init() {
-    
+  init(ItemManager) {
+    this.items = ItemManager;
   },
 
-  createReporter() {
-
+  createReporter(skuCode) {
+    let item = this.items.find(skuCode);
+    return {
+      itemInfo() {
+        for (let key in item) {
+          console.log(`${key}:${item[key]}`);
+        }
+      }
+    }
   },
 
   reportInStock() {
-
+    let inStockItems = this.items.inStock();
+    let inStockNames = inStockItems.map(item => item[itemName]);
+    return inStockNames.join();
   }
 }
