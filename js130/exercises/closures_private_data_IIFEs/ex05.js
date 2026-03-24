@@ -93,7 +93,7 @@ let itemManager = {
 
   update(skuCode, obj) {
     let item = this.find(skuCode);
-    if (obj.name) {
+    if (obj.itemName) {
       item.itemName = obj.itemName;
     }
 
@@ -105,7 +105,7 @@ let itemManager = {
       item.skuCode = obj.skuCode;
     }
 
-    if (obj.quantity) {
+    if (obj.quantity !== undefined) {
       item.quantity = obj.quantity;
     }
   },
@@ -143,7 +143,7 @@ let reportsManager = {
 
   reportInStock() {
     let inStockItems = this.items.inStock();
-    let inStockNames = inStockItems.map(item => item[itemName]);
-    return inStockNames.join();
+    let inStockNames = inStockItems.map(item => item['itemName']);
+    console.log(inStockNames.join());
   }
 }
