@@ -50,28 +50,26 @@ Notes:
 */
 
 function genSKU(cleanName, category) {
-  return cleanName.slice(0, 3) + category.slice(0, 2);
+  return (cleanName.slice(0, 3) + category.slice(0, 2)).toUpperCase();
 }
 
 function createItem(name, category, quantity) {
-  if (name === undefined || category === undefined || quantity === undefined) return false;
+  if (name === undefined || category === undefined || quantity === undefined) return {notValid: true};
+
+  if (category.includes(" ")) return {notValid: true};
+
+  if (category.length < 5) return {notValid: true};
 
   let cleanName = name.trim().split(' ').join('');
 
-  if (cleanName.length < 5) return false;
+  if (cleanName.length < 5) return {notValid: true};
 
-  if (category.includes(" ")) return false;
-
-  if (category.length < 5) return false;
-
-  return (function(name, category, quantity) {
-    return {
-      name: name,
-      category: category,
-      SKU: genSKU(cleanName, category),
-      quantity: quantity
-    }
-  })(name, category, quantity) 
+  return {
+    itemName: name,
+    category,
+    skuCode: genSKU(cleanName, category),
+    quantity
+  }
 }
 
 let item = createItem('sweater', 'clothing', 1)
