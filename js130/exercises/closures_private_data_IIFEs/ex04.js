@@ -5,14 +5,22 @@ The remaining arguments, if any, are passed — as arguments — to the objects'
 The delegate function should return the same value returned by calling the other object's method.
 */
 
-function delegate(obj, methodName, ...args) {
-  let method = obj[methodName];
-  return method(...args);
+function delegate(obj, methodName) {
+  return function(...args) {
+    let method = obj[methodName];
+    return method(...args);
+  }
 }
 
 let interactions = {greet: function(person) {
-  return `Hello, ${person}`;
+  return `Hello, ${person}!`;
 }}
 
+let delegatedGreet = delegate(interactions, 'greet');
+
+let expressions = {};
+expressions['hello'] = delegate(interactions, 'greet');
+
 console.log(interactions.greet('John'));
-console.log(delegate(interactions, 'greet', 'John'));
+console.log(delegatedGreet('John'));
+console.log(expressions.hello('John'));
